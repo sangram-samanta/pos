@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div class="form">
+        <div>
+            <label for="mid">Merchant ID:</label>
+            <input id="mid" type="text" placeholder="Merchant ID" name="mid" value="329">
+        </div>
+        <div>
+            <label for="tid">Terminal ID:</label>
+            <input id="tid" type="text" placeholder="Terminal ID" name="tid" value="100">
+        </div>
+        <div>
+            <button type="button" onclick="doPairing()">Commence Pairing</button>
+        </div>
+        <div id="result"></div>
+    </div>
+
+    <script src="https://iclientsimulator.test.tyro.com/iclient-with-ui-v1.js"></script>
+    <script>
+      var apiKey = "8a28a6421856b38d22f46ad0b4721ab1"; // API Key not validated test environments
+const posProductInfo = {
+  posProductVendor: "Foodship",
+  posProductName: "Foodship POS",
+  posProductVersion: "1.0.7",
+  /*     siteReference: "Bundoora" */
+}
+
+        function doPairing() {
+            var mid = document.getElementById("mid").value;
+            var tid = document.getElementById("tid").value;
+            var iclient = new TYRO.IClientWithUI(apiKey, posProductInfo);
+            iclient.pairTerminal(mid, tid, function (response) {
+                if ("success" == response.status) {
+                    console.log("Pairing success: " + JSON.stringify(response));
+                    document.getElementById("result").textContent = "Success: " + response.message;
+                } else if ("failure" == response.status) {
+                    console.log("Pairing failure: " + JSON.stringify(response));
+                    document.getElementById("result").textContent = "Failure: " + response.message;
+                } else {
+                    console.log("Pairing " + JSON.stringify(response));
+                    document.getElementById("result").textContent = response.message;
+         
+                }
+            });
+        }
+    </script>
+</body>
+</html>
