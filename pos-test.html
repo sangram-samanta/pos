@@ -30,11 +30,11 @@ const posProductInfo = {
   posProductVersion: "1.0.7",
   /*     siteReference: "Bundoora" */
 }
-
+            var iclient = new TYRO.IClientWithUI(apiKey, posProductInfo);
         function doPairing() {
             var mid = document.getElementById("mid").value;
             var tid = document.getElementById("tid").value;
-            var iclient = new TYRO.IClientWithUI(apiKey, posProductInfo);
+
             iclient.pairTerminal(mid, tid, function (response) {
                 if ("success" == response.status) {
                     console.log("Pairing success: " + JSON.stringify(response));
