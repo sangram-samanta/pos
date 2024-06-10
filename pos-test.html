@@ -231,10 +231,12 @@
 
       document.addEventListener('message', function (message) {
         alert(message.data)
+        window.ReactNativeWebView.postMessage(message.data);
          onWebViewMessage(message);
       });
       window.addEventListener('message', function (message) {
         alert(message.data)
+        window.ReactNativeWebView.postMessage(message.data);
          onWebViewMessage(message);
       });
 
