@@ -230,11 +230,11 @@
       }
 
       document.addEventListener('message', function (message) {
-        alert(response)
+        alert(message.data)
          onWebViewMessage(message);
       });
       window.addEventListener('message', function (message) {
-        alert(response)
+        alert(message.data)
          onWebViewMessage(message);
       });
 
