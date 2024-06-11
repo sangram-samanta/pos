@@ -6,231 +6,375 @@
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
    <title>Tyro Payments Integration</title>
    <style>
+      body {
+         font-family: Arial, sans-serif;
+         margin: 0;
+         padding: 0;
+      }
+
       .hidden {
          display: none;
       }
+
+      .container-fluid {
+         display: flex;
+         /* flex-wrap: nowrap; */
+         min-height: 100vh;
+      }
+
+      .bg-dark {
+         background-color: #343a40;
+         color: white;
+      }
+
+      .min-vh-100 {
+         min-height: 100vh;
+      }
+
+      .col-auto {
+         flex: 0 0 auto;
+         width: 250px;
+         padding: 0;
+      }
+
+      .col {
+         flex: 1;
+         padding: 1rem;
+      }
+
+      .p-3 {
+         padding: 1rem;
+      }
+
+      .link-dark {
+         color: white;
+         text-decoration: none;
+      }
+
+      .link-dark:hover {
+         text-decoration: underline;
+      }
+
+      .fw-bold {
+         font-weight: bold;
+      }
+
+      .nav {
+         list-style: none;
+         padding: 0;
+      }
+
+      .nav-item {
+         margin: 0.5rem 0;
+      }
+
+      .nav-link {
+         color: white;
+         text-decoration: none;
+         padding: 0.5rem;
+         display: block;
+      }
+
+      .nav-link:hover {
+         background-color: #495057;
+         color: white;
+      }
+
+      .form-group {
+         margin: 1rem 0;
+      }
+
+      .form-label {
+         display: block;
+         margin-bottom: 0.5rem;
+      }
+
+      .form-control {
+         width: 100%;
+         padding: 0.5rem;
+         border: 1px solid #ced4da;
+         border-radius: 0.25rem;
+      }
+
+      .btn {
+         display: inline-block;
+         font-weight: 400;
+         color: white;
+         text-align: center;
+         vertical-align: middle;
+         cursor: pointer;
+         background-color: #007bff;
+         border: 1px solid transparent;
+         padding: 0.5rem 1rem;
+         border-radius: 0.25rem;
+         text-decoration: none;
+      }
+
+      .btn:hover {
+         background-color: #0056b3;
+      }
+
+      .btn-lg {
+         padding: 0.75rem 1.5rem;
+         font-size: 1.25rem;
+         border-radius: 0.3rem;
+      }
+
+      .d-flex {
+         display: flex;
+      }
+
+      .justify-content-center {
+         justify-content: center;
+      }
+
+      .align-items-center {
+         align-items: center;
+      }
+
+      .mt-2 {
+         margin-top: 0.5rem;
+      }
+
+      .m-2 {
+         margin: 0.5rem;
+      }
+
+      .p-1 {
+         padding: 0.5rem;
+      }
+
+      .border {
+         border: 1px solid #ced4da;
+      }
+
+      .border-light {
+         border-color: #f8f9fa !important;
+      }
+
+      .preformatted {
+         white-space: pre;
+         background: #f8f9fa;
+         padding: 1rem;
+         border-radius: 0.25rem;
+      }
+
+      h4 {
+         margin-top: 0;
+      }
+      .tab {
+    overflow: hidden;
+    border: 1px solid #ccc;
+    background-color: #f1f1f1;
+    border-radius: 5px;
+    display: flex;
+    gap: 10px;
+    justify-content: space-between;
+    align-self: center;
+    align-items: center;
+    /* width: 30%; */
+}
+
+/* Style the buttons inside the tab */
+.tab div {
+    background-color: inherit;
+    float: left;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 10px 20px;
+    transition: 0.3s;
+    border-radius: 5px 5px 0 0;
+    
+}
+
+/* Change background color of buttons on hover */
+.tab div:hover {
+    background-color: #ddd;
+}
+
+/* Create an active/current tablink class */
+.tab div.active {
+    background-color: #ccc;
+}
+
+/* Style the tab content */
+.tabcontent {
+    display: none;
+    padding: 6px 12px;
+    border-top: none;
+}
+
+/* Show the specific tab content */
+.show {
+    display: block;
+}
    </style>
-   <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
-   <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
-   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
-   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 </head>
 
 <body>
    <input id="type" name="type" type="hidden" value="purchase">
-   <main class="container-fluid mt-3">
-      <h2 class="fw-bold text-center text-bold">Tyro Payments</h2>
-      <ul class="nav nav-tabs" id="configNavigation" role="tablist">
-         <li class="nav-item">
-            <a class="nav-link active" id="configuration-tab" data-toggle="tab" href="#pairingContent" role="tab" aria-controls="configuration" aria-selected="true">Configuration</a>
-         </li>
-         <li class="nav-item">
-            <a class="nav-link" id="purchase-tab" data-toggle="tab" href="#purchaseWithTyroUIContent" role="tab" aria-controls="purchase" aria-selected="false">Purchase</a>
-         </li>
-         <li class="nav-item">
-            <a class="nav-link" id="refund-tab" data-toggle="tab" href="#refundWithTyroUIContent" role="tab" aria-controls="refund" aria-selected="false">Refund</a>
-         </li>
-      </ul>
-      <div class="tab-content mt-3">
-         <div class="tab-pane fade show active" id="pairingContent" role="tabpanel" aria-labelledby="configuration-tab">
-            <div class="row">
-               <div class="col-12 col-md-6 col-lg-6 col-xl-6 p-1">
-                  <h4>Configuration</h4>
-                  <div class="mt-2 col-12 col-md-8">
-                     <label class="form-label" for="mid">Merchant ID:</label>
-                     <input id="mid" type="text" class="form-control" placeholder="Merchant ID" name="mid">
+   <main class="container-fluid">
+    <!-- <div class="bg-dark">
+        <div class="p-3">
+            <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-dark text-decoration-none">
+                <span class="fw-bold text-white">Tyro Payments</span>
+            </a>
+            <div class="tab">
+                <button class="tablinks" onclick="showConfigurationPage()">Configuration</button>
+                <button class="tablinks" onclick="showPurchaseWithTyroUI()">Purchase</button>
+                <button class="tablinks" onclick="showRefundWithTyroUI()">Refund</button>
+
+            </div>
+          
+         </div>
+         lll
+      </div> -->
+
+      <div class="col py-3">
+        <div class="tab">
+            <div class="tablinks" onclick="showConfigurationPage()">Configuration</div>
+            <div class="tablinks" onclick="showPurchaseWithTyroUI()">Purchase</div>
+            <div class="tablinks" onclick="showRefundWithTyroUI()">Refund</div>
+
+        </div>
+         <div id="content">
+            <div id="purchaseWithTyroUIContent" class="hidden">
+               <input id="isReceipt" type="hidden" name="isReceipt" value="yes">
+               <input id="isSurcharge" type="hidden" name="isSurcharge" value="yes">
+               <div class="row">
+                  <div class="col-12 col-md-3 col-lg-3 col-xl-3 p-1">
+                     <h4>Purchase</h4>
+                     <div class="form-group m-2">
+                        <label class="form-label" for="amount">Amount:</label>
+                        <input id="amount" type="text" class="form-control" placeholder="Amount" name="amount" value="100">
+                     </div>
+                     <div class="form-group m-2">
+                        <label class="form-label" for="cashout">Cash out:</label>
+                        <input id="cashout" type="text" class="form-control" placeholder="Cash out" name="cashout" value="0">
+                     </div>
+                     <div class="form-group m-2 d-flex justify-content-center align-items-center">
+                        <button type="button" class="btn btn-lg" onclick="doPurchaseWithTyroUI()">Process</button>
+                     </div>
                   </div>
-                  <div class="mt-2 col-12 col-md-8">
-                     <label class="form-label" for="tid">Terminal ID:</label>
-                     <input id="tid" type="text" class="form-control" placeholder="Terminal ID" name="tid">
-                  </div>
-                  <div class="d-flex mt-2 col-12 col-md-8 justify-content-center align-items-center">
-                     <button type="button" class="btn btn-lg btn-primary" onclick="doPairing()">Commence Pairing</button>
-                  </div>
-               </div>
-               <div class="col-12 col-md-6 col-lg-6 col-xl-6">
-                  <div class="border border-light p-1" style="height: 200px;">
-                     <h4>Messages</h4>
-                     <div id="messages"></div>
-                  </div>
-                  <div class="border border-light p-1" style="height: 200px;">
+                  <div class="col-12 col-md-3 col-lg-3 col-xl-3 p-1">
                      <h4>Result</h4>
-                     <div id="pair_result"></div>
+                     <div id="result"></div>
+                  </div>
+                  <div class="col-12 col-md-3 col-lg-3 col-xl-3 p-1">
+                     <h4>Merchant Receipt</h4>
+                     <div id="merchantReceipt" class="preformatted"></div>
+                  </div>
+                  <div class="col-12 col-md-3 col-lg-3 col-xl-3 p-1">
+                     <h4>Customer Receipt</h4>
+                     <div id="customerReceipt" class="preformatted"></div>
                   </div>
                </div>
             </div>
-         </div>
-         <div class="tab-pane fade" id="purchaseWithTyroUIContent" role="tabpanel" aria-labelledby="purchase-tab">
-            <div class="row">
-               <div class="col-12 col-md-3 col-lg-3 col-xl-3 p-1">
-                  <h4>Purchase</h4>
-                  <div class="form-group m-2">
-                     <label class="form-label" for="amount">Amount:</label>
-                     <input id="amount" type="text" class="form-control" placeholder="Amount" name="amount" value="100">
+            <div id="refundWithTyroUIContent" class="hidden">
+               <div class="row">
+                  <div class="col-12 col-md-3 col-lg-3 col-xl-3 p-1">
+                     <h4>Refund</h4>
+                     <div class="form-group m-2">
+                        <label class="form-label" for="refund_amount">Refund Amount:</label>
+                        <input id="refund_amount" type="text" class="form-control" placeholder="Amount" name="refund_amount" value="">
+                     </div>
+                     <div class="form-group m-2 d-flex justify-content-center align-items-center">
+                        <button type="button" class="btn btn-lg" onclick="doRefundWithTyroUI()">Process</button>
+                     </div>
                   </div>
-                  <div class="form-group m-2">
-                     <label class="form-label" for="cashout">Cash out:</label>
-                     <input id="cashout" type="text" class="form-control" placeholder="Cash out" name="cashout" value="0">
+                  <div class="col-12 col-md-3 col-lg-3 col-xl-3 p-1">
+                     <h4>Result</h4>
+                     <div id="refund_result"></div>
                   </div>
-                  <div class="form-group m-2 d-flex justify-content-center align-items-center">
-                     <button type="button" class="btn btn-lg btn-primary" onclick="doPurchaseWithTyroUI()">Process</button>
+                  <div class="col-12 col-md-3 col-lg-3 col-xl-3 p-1">
+                     <h4>Merchant Receipt</h4>
+                     <div id="refund_merchantReceipt" class="preformatted"></div>
                   </div>
-               </div>
-               <div class="col-12 col-md-3 col-lg-3 col-xl-3 p-1">
-                  <h4>Result</h4>
-                  <div id="result"></div>
-               </div>
-               <div class="col-12 col-md-3 col-lg-3 col-xl-3 p-1">
-                  <h4>Merchant Receipt</h4>
-                  <div id="merchantReceipt" style="width: 250px;"></div>
-               </div>
-               <div class="col-12 col-md-3 col-lg-3 col-xl-3 p-1">
-                  <h4>Customer Receipt</h4>
-                  <div id="customerReceipt" style="width: 250px;"></div>
+                  <div class="col-12 col-md-3 col-lg-3 col-xl-3 p-1">
+                     <h4>Customer Receipt</h4>
+                     <div id="refund_customerReceipt" class="preformatted"></div>
+                  </div>
                </div>
             </div>
-         </div>
-         <div class="tab-pane fade" id="refundWithTyroUIContent" role="tabpanel" aria-labelledby="refund-tab">
-            <div class="row">
-               <div class="col-12 col-md-3 col-lg-3 col-xl-3 p-1">
-                  <h4>Refund</h4>
-                  <div class="form-group m-2">
-                     <label class="form-label" for="refund_amount">Refund Amount:</label>
-                     <input id="refund_amount" type="text" class="form-control" placeholder="Amount" name="refund_amount" value="">
+            <div id="pairingContent" class="hidden">
+               <div class="row">
+                  <div class="col-12 col-md-6 col-lg-6 col-xl-6 p-1">
+                     <h4>Configuration</h4>
+                     <div class="mt-2 col-12 col-md-8">
+                        <label class="form-label" for="mid">Merchant ID:</label>
+                        <input id="mid" type="text" class="form-control" placeholder="Merchant ID" name="mid">
+                     </div>
+                     <div class="mt-2 col-12 col-md-8">
+                        <label class="form-label" for="tid">Terminal ID:</label>
+                        <input id="tid" type="text" class="form-control" placeholder="Terminal ID" name="tid">
+                     </div>
+                     <div class="d-flex mt-2 col-12 col-md-8 justify-content-center align-items-center">
+                        <button type="button" class="btn btn-lg" onclick="doPairing()">Save</button>
+                     </div>
                   </div>
-                  <div class="form-group m-2 d-flex justify-content-center align-items-center">
-                     <button type="button" class="btn btn-lg btn-primary" onclick="doRefundWithTyroUI()">Process</button>
+                  <div class="col-12 col-md-6 col-lg-6 col-xl-6 p-1">
+                     <h4>Connection Details</h4>
+                     <div id="pairingConnectionDetails" class="preformatted border border-light"></div>
                   </div>
-               </div>
-               <div class="col-12 col-md-3 col-lg-3 col-xl-3 p-1">
-                  <h4>Result</h4>
-                  <div id="refund_result"></div>
-               </div>
-               <div class="col-12 col-md-3 col-lg-3 col-xl-3 p-1">
-                  <h4>Merchant Receipt</h4>
-                  <div id="refund_merchantReceipt" style="width: 250px;"></div>
-               </div>
-               <div class="col-12 col-md-3 col-lg-3 col-xl-3 p-1">
-                  <h4>Customer Receipt</h4>
-                  <div id="refund_customerReceipt" style="width: 250px;"></div>
                </div>
             </div>
          </div>
       </div>
    </main>
-
-   <script src="https://iclientsimulator.test.tyro.com/iclient-with-ui-v1.js"></script>
    <script>
-      var apiKey = "8a28a6421856b38d22f46ad0b4721ab1";
-      var tid;
-      var mid;
-      const posProductInfo = {
-         posProductVendor: "Foodship",
-         posProductName: "Foodship POS",
-         posProductVersion: "1.0.7",
-      };
-      var integrationKey;
-
-      function setConfig(params) {
-         apiKey = params.apiKey;
-         mid = params.mid;
-         tid = params.tid;
-         posProductInfo = params.posProductInfo;
-         terminalStatus = 1;
-         document.getElementById("mid").value = params.mid;
-         document.getElementById("tid").value = params.tid;
-         document.getElementById("type").value = params.type;
-         document.getElementById("amount").value = params.amount;
+      function showPurchaseWithTyroUI() {
+         document.getElementById('purchaseWithTyroUIContent').classList.remove('hidden');
+         document.getElementById('refundWithTyroUIContent').classList.add('hidden');
+         document.getElementById('pairingContent').classList.add('hidden');
       }
 
-      function sendResponse(params) {
-         alert(params, "llll")
-         params = JSON.stringify(params);
-         if (window.ReactNativeWebView && window.ReactNativeWebView.postMessage) {
-            window.ReactNativeWebView.postMessage(params);
-         }
+      function showRefundWithTyroUI() {
+         document.getElementById('purchaseWithTyroUIContent').classList.add('hidden');
+         document.getElementById('refundWithTyroUIContent').classList.remove('hidden');
+         document.getElementById('pairingContent').classList.add('hidden');
       }
 
-      async function onWebViewMessage(message) {
-         try {
-            if (!message === undefined || message === null || message === '') return;
-            if (!message.data) return;
-
-            const res = JSON.parse(message.data);
-            console.log(res)
-            if (res.action === 'set-config') {
-               setConfig(res.data);
-            }
-            if (res.action === 'init-purchase') {
-               document.getElementById("amount").value = res.data.amount;
-               document.getElementById("cashout").value = res.data.cashout;
-               document.getElementById("type").value = res.data.type;
-               doPurchaseWithTyroUI();
-            }
-         } catch (error) {
-            alert('Error', error.message)
-         }
+      function showConfigurationPage() {
+         document.getElementById('purchaseWithTyroUIContent').classList.add('hidden');
+         document.getElementById('refundWithTyroUIContent').classList.add('hidden');
+         document.getElementById('pairingContent').classList.remove('hidden');
       }
 
-      window.addEventListener("message", (message) => onWebViewMessage(message), false);
+      function doPurchaseWithTyroUI() {
+         let amount = document.getElementById('amount').value;
+         let cashout = document.getElementById('cashout').value;
+         let isReceipt = document.getElementById('isReceipt').value;
+         let isSurcharge = document.getElementById('isSurcharge').value;
 
-      async function doPairing() {
-         integrationKey = await Tyro.commencePairing(apiKey, mid, tid, posProductInfo, displayPairingMessages, displayPairingResult);
+         let result = "Transaction Successful"; // Placeholder result
+         let merchantReceipt = "Merchant Receipt:\nAmount: " + amount + "\nCash out: " + cashout;
+         let customerReceipt = "Customer Receipt:\nAmount: " + amount + "\nCash out: " + cashout;
+
+         document.getElementById('result').innerText = result;
+         document.getElementById('merchantReceipt').innerText = merchantReceipt;
+         document.getElementById('customerReceipt').innerText = customerReceipt;
       }
 
-      function displayPairingMessages(message) {
-         console.log("Pairing Message:", message);
-         document.getElementById("messages").innerText = JSON.stringify(message, null, 2);
+      function doRefundWithTyroUI() {
+         let refundAmount = document.getElementById('refund_amount').value;
+
+         let result = "Refund Successful"; // Placeholder result
+         let merchantReceipt = "Merchant Receipt:\nRefund Amount: " + refundAmount;
+         let customerReceipt = "Customer Receipt:\nRefund Amount: " + refundAmount;
+
+         document.getElementById('refund_result').innerText = result;
+         document.getElementById('refund_merchantReceipt').innerText = merchantReceipt;
+         document.getElementById('refund_customerReceipt').innerText = customerReceipt;
       }
 
-      function displayPairingResult(result) {
-         console.log("Pairing Result:", result);
-         document.getElementById("pair_result").innerText = JSON.stringify(result, null, 2);
-      }
+      function doPairing() {
+         let mid = document.getElementById('mid').value;
+         let tid = document.getElementById('tid').value;
 
-      async function doPurchaseWithTyroUI() {
-         const type = document.getElementById("type").value || "purchase";
-         const amount = document.getElementById("amount").value;
-         const cashout = document.getElementById("cashout").value;
-         const result = await Tyro[type](integrationKey, amount, cashout);
-         console.log("Purchase Result:", result);
-         sendResponse(result);
-         displayResult(result);
-      }
+         let connectionDetails = "Pairing Successful:\nMerchant ID: " + mid + "\nTerminal ID: " + tid;
 
-      function displayResult(result) {
-         console.log("Transaction Result:", result);
-         document.getElementById("result").innerText = JSON.stringify(result, null, 2);
-         displayReceipts(result.receipts);
-      }
-
-      function displayReceipts(receipts) {
-         if (receipts) {
-            document.getElementById("merchantReceipt").innerText = receipts.merchantReceipt || "";
-            document.getElementById("customerReceipt").innerText = receipts.customerReceipt || "";
-         }
-      }
-
-      async function doRefundWithTyroUI() {
-         const type = document.getElementById("type").value || "refund";
-         const amount = document.getElementById("refund_amount").value;
-         const result = await Tyro[type](integrationKey, amount);
-         console.log("Refund Result:", result);
-         sendResponse(result);
-         displayRefundResult(result);
-      }
-
-      function displayRefundResult(result) {
-         console.log("Refund Transaction Result:", result);
-         document.getElementById("refund_result").innerText = JSON.stringify(result, null, 2);
-         displayRefundReceipts(result.receipts);
-      }
-
-      function displayRefundReceipts(receipts) {
-         if (receipts) {
-            document.getElementById("refund_merchantReceipt").innerText = receipts.merchantReceipt || "";
-            document.getElementById("refund_customerReceipt").innerText = receipts.customerReceipt || "";
-         }
+         document.getElementById('pairingConnectionDetails').innerText = connectionDetails;
       }
    </script>
 </body>
